@@ -8,6 +8,7 @@
 
 #include "../../../include/rules.hpp"
 #include "../../../include/utils/state_repr.hpp"
+#include "../../../include/utils/moves/arrange_for_distribution.hpp"
 
 static vector<Player> distribution_pairs(Player fingers)
 {
@@ -15,7 +16,7 @@ static vector<Player> distribution_pairs(Player fingers)
     distribution_pairs_list.push_back(fingers);
     //some code here
     auto sum = static_cast<short>(get<0>(fingers)+get<1>(fingers));
-    for (short i = 0; i < MAX_FINGER; i++)
+    for (short i = 0; i <= sum/2; i++)
     {
         Player sol_i;
         get<0>(sol_i) = min(i, static_cast<short>((sum-i)%MAX_FINGER));
@@ -50,13 +51,11 @@ Next_State_str_vector distribute(State_tuple state)
     // in distribution, attacker is the one who gets changed.
     // call _distribution_pair, do some operation and return
     vector<Player> dp = distribution_pairs(attacker);
-
-    for (short i = 0; i < dp.size(); i++)
+    if (dp.size() == 1) return distribution_list;
+    for (short i = 1; i < dp.size(); i++)
     {
-        get<0>(distribution_tuple) = dp[i];
-        get<1>(distribution_tuple) = victim;
-        get<2>(distribution_tuple) = get<2>(distribution_tuple);
-        distribution_list.push_back(tuple_to_str(distribution_tuple));
+        Player n_attacker = dp[i];
+        distribution_list.push_back(arrange_dist(state, n_attacker));
     }
 
     return distribution_list;

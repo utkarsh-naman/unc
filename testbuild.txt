@@ -5,3 +5,6 @@ src/utils/moves/arrange_attacker_victim.cpp
 src/utils/moves/left_to_right.cpp
 src/utils/moves/right_to_left.cpp
 src/utils/moves/right_to_right.cpp
+src/utils/moves/arrange_for_distribution.cpp
+src/utils/moves/distribute.cpp
+src/utils/moves/next_state.cpp

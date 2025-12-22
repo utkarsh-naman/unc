@@ -21,4 +21,8 @@ add_executable(cs_cpp trialf.cpp
         include/utils/moves/right_to_right.hpp
         src/utils/moves/distribute.cpp
         include/utils/moves/distribute.hpp
+        src/utils/moves/arrange_for_distribution.cpp
+        include/utils/moves/arrange_for_distribution.hpp
+        src/utils/moves/next_state.cpp
+        include/utils/moves/next_state.hpp
 )

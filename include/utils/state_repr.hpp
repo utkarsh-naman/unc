@@ -18,4 +18,5 @@ using Next_State_str_vector = vector<State_str>;
 
 State_tuple str_to_tuple(const State_str& state);
 State_str tuple_to_str(const State_tuple& state_tuple);
+bool state_str_empty(const State_str& state);
 #endif //CS_CPP_STATE_REPR_HPP

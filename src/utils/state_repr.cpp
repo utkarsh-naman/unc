@@ -3,7 +3,7 @@
 //
 
 #include "../../include/utils/state_repr.hpp"
-
+#include <algorithm>
 using namespace std;
 
 State_tuple str_to_tuple(const State_str& state)
@@ -27,4 +27,9 @@ State_str tuple_to_str(const State_tuple& state_tuple)
     t[4] = '0'+ get<2>(state_tuple);
     t[5] = '\0';
     return t;
+}
+
+bool state_str_empty(const State_str& state)
+{
+    return all_of(state.begin(), state.end(), [](unsigned char c) { return c == 0; });
 }
