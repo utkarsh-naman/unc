@@ -15,6 +15,7 @@ using State_tuple = tuple<Player, Player, short>;
 // using State_str = unsigned char[6];
 using State_str = array<unsigned char, 6>;
 using Next_State_str_vector = vector<State_str>;
+using Prev_State_str_vector = vector<State_str>;
 
 State_tuple str_to_tuple(const State_str& state);
 State_str tuple_to_str(const State_tuple& state_tuple);

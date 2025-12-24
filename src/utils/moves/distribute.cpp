@@ -49,7 +49,9 @@ Next_State_str_vector distribute(State_tuple state)
     }
 
     // in distribution, attacker is the one who gets changed.
-    // call _distribution_pair, do some operation and return
+
+    if (get<1>(victim) == 0) return distribution_list; // already victim lost, so no need to distribute
+
     vector<Player> dp = distribution_pairs(attacker);
     if (dp.size() == 1) return distribution_list;
     for (short i = 1; i < dp.size(); i++)

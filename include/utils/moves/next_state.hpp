@@ -7,5 +7,5 @@
 #include "../state_repr.hpp"
 
 
-Next_State_str_vector next_states(const State_tuple& state);
+Next_State_str_vector next_states(const State_str& state_str);
 #endif //CS_CPP_NEXT_STATE_HPP
