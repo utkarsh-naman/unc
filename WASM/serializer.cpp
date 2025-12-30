@@ -3,6 +3,8 @@
 //
 
 #include "serializer.hpp"
+
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -28,9 +30,10 @@ Map load_map(const string& filename) {
     }
 
     // 1. Read total number of entries
-    size_t map_size = 0;
-    in.read(reinterpret_cast<char*>(&map_size), sizeof(map_size));
+    uint64_t map_size_storage = 0;
+    in.read(reinterpret_cast<char*>(&map_size_storage), sizeof(map_size_storage));
 
+    size_t map_size = static_cast<size_t>(map_size_storage);
     for (size_t i = 0; i < map_size; ++i) {
         // 2. Read the Key
         State_str key = read_state(in);
@@ -41,9 +44,10 @@ Map load_map(const string& filename) {
         in.read(reinterpret_cast<char*>(&props.score), sizeof(props.score));
 
         // 4. Read the size of next_states vector
-        size_t vec_size = 0;
-        in.read(reinterpret_cast<char*>(&vec_size), sizeof(vec_size));
+        uint64_t vec_size_storage = 0;
+        in.read(reinterpret_cast<char*>(&vec_size_storage), sizeof(vec_size_storage));
 
+        size_t vec_size = static_cast<size_t>(vec_size_storage);
         // 5. Read the next states
         props.next_states.resize(vec_size);
         for (size_t j = 0; j < vec_size; ++j) {

@@ -3,6 +3,8 @@
 //
 
 #include "../../include/utils/serializer.hpp"
+
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -71,7 +73,7 @@ Map load_map(const string& filename) {
     }
 
     // 1. Read total number of entries
-    size_t map_size = 0;
+    uint64_t map_size = 0;
     in.read(reinterpret_cast<char*>(&map_size), sizeof(map_size));
 
     for (size_t i = 0; i < map_size; ++i) {

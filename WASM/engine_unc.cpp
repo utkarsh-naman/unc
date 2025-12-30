@@ -103,12 +103,12 @@ string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 
     if (attacker_i == 0) // attacker was r
     {
-        if (ul_f == min(ul_i, ur_i)) // r distributed
+        if (ul_f == min(ul_i, ur_i) && ur_f == max(ul_i, ur_i)) // r distributed
         {
             // r swaps
             // move[0] = 's';
             // move[1] = '0'+ rl_f;
-            move_str = 's'+ static_cast<char>(rl_f);
+            move_str = 's'+ std::to_string(rl_f);
             return move_str;
         }
 
@@ -186,11 +186,11 @@ string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
     }
 
 
-    if (rl_f == min(rl_i, rr_i)) // u distributes
+    if (rl_f == min(rl_i, rr_i) && rr_f == max(rl_i, rr_i)) // u distributes
     {
         // move[0] = 's';
         // move[1] = '0'+ ul_f;
-        move_str = 's'+static_cast<char>(ul_f);
+        move_str = 's'+ std::to_string(ul_f);
         return move_str;
     }
 

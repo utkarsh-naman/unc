@@ -8,10 +8,10 @@
 int main()
 {
     UncEngine engine = UncEngine();
-    State_str g_state = {'0', '2', '1', '1', '1', '\0'};
+    string g_state = "02111";
     cout << "GAME START" << endl;
     cout << "STATE:\t" << g_state[0] << " " << g_state[1] << " " << g_state[2] << " " << g_state[3] << " " << endl;
     cout << "Turn:\t" << ((g_state[4] == '1')? "Bot\'s": "Yours") << endl;
-    Move_str bot_move = engine.play(g_state);
-    cout << "Bot's move:\t" << bot_move.data() << endl;
+    string bot_move = engine.play(g_state);
+    cout << "Bot's move: " << bot_move.data() << endl;
 }
