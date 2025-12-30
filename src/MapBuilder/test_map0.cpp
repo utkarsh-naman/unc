@@ -42,7 +42,7 @@ void print_map(const Map& map_0)
 
 int main()
 {
-    Map map_0 = load_map("../../bin/output/map/unvalued/map_0");
+    Map map_0 = load_map("../../bin/output/map/valued/map_final");
     print_map(map_0);
     return 0;
 }

@@ -14,6 +14,7 @@ using Player = tuple<short, short>;
 using State_tuple = tuple<Player, Player, short>;
 // using State_str = unsigned char[6];
 using State_str = array<unsigned char, 6>;
+using Move_str = array<unsigned char, 3>;
 using Next_State_str_vector = vector<State_str>;
 using Prev_State_str_vector = vector<State_str>;
 

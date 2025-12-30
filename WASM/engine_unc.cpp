@@ -11,7 +11,6 @@
 using State_str = array<unsigned char, 6>;
 using Move_str = array<unsigned char, 3>;
 
-using namespace std;
 
 
 UncEngine::UncEngine() : game_map(load_map("map_final"))
@@ -19,13 +18,20 @@ UncEngine::UncEngine() : game_map(load_map("map_final"))
 
 };
 
-Move_str UncEngine::play(const State_str& og_state) const
+std::string UncEngine::play(const std::string& og_state_str) const
 {
+    State_str og_state;
+    og_state[0] = static_cast<unsigned char>(og_state_str[0]);
+    og_state[1] = static_cast<unsigned char>(og_state_str[1]);
+    og_state[2] = static_cast<unsigned char>(og_state_str[2]);
+    og_state[3] = static_cast<unsigned char>(og_state_str[3]);
+    og_state[4] = static_cast<unsigned char>(og_state_str[4]);
+    og_state[5] = '\0';
     State_str state = sort_state(og_state);
-    Move_str move{};
+    string move;
     const auto& move_options = game_map.at(state).next_states;
 
-    if (move_options.empty()){ cout << "no next move options so return" <<endl; return move;} //case 1: terminal state
+    if (move_options.empty()){ return move;} //case 1: terminal state
 
     bool is_all_ninf = all_of(
         move_options.begin(),
@@ -48,10 +54,7 @@ Move_str UncEngine::play(const State_str& og_state) const
                 return game_map.at(a).losedepth < game_map.at(b).losedepth;
             }
         );
-        // State_str sorted_best_state = *it;
-        // cout << "case 2: sorted data: " << sorted_best_state.data() << endl;
-        // Move_str true_move_played = move_played(og_state, sorted_best_state);
-        // return true_move_played;
+
         return move_played(og_state, *it);
 
     }
@@ -65,12 +68,7 @@ Move_str UncEngine::play(const State_str& og_state) const
             return game_map.at(a).score < game_map.at(b).score;
         }
     );
-    // State_str sorted_best_state = *it;
-    // cout << "case 3: sorted data: " << sorted_best_state.data() << endl;
-    // Move_str sorted_move_played = move_played(state, sorted_best_state);
-    // cout << "soted bot move: " << sorted_move_played.data() << endl;
-    // true_move_played = unsort_move(og_state, state, sorted_move_played);
-    // return true_move_played;
+
     return move_played(og_state, *it);
 
 };
@@ -87,11 +85,10 @@ State_str UncEngine::sort_state(const State_str& state)
     return t;
 }
 
-Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
+string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 {
-    cout << "og: "<< og_state_i.data() <<endl;
-    cout << "Next turn sorted: " << state_f.data()<< endl;
     Move_str move{};
+    std::string move_str;
     move[2] = '\0';
     const int rl_i = (static_cast<int>(og_state_i[0])-48);
     const int rr_i = (static_cast<int>(og_state_i[1])-48);
@@ -109,9 +106,10 @@ Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
         if (ul_f == min(ul_i, ur_i)) // r distributed
         {
             // r swaps
-            move[0] = 's';
-            move[1] = '0'+ rl_f;
-            return move;
+            // move[0] = 's';
+            // move[1] = '0'+ rl_f;
+            move_str = 's'+ static_cast<char>(rl_f);
+            return move_str;
         }
 
 
@@ -119,15 +117,17 @@ Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 
         if (ul_f == (ul_i+rl_i)%5 && ur_f == ur_i) // r: l->l
         {
-            move[0] = 'l';
-            move[1] = 'l';
-            return move;
+            // move[0] = 'l';
+            // move[1] = 'l';
+            move_str = "ll";
+            return move_str;
         }
         if (ul_f == (ul_i+rl_i)%5 && ur_f != ur_i) // r: l->l
         {
-            move[0] = 'l';
-            move[1] = 'r';
-            return move;
+            // move[0] = 'l';
+            // move[1] = 'r';
+            move_str = "lr";
+            return move_str;
         }
 
 
@@ -135,15 +135,17 @@ Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 
         if (ul_f == (ul_i+rr_i)%5 && ur_f == ur_i) // r: r->l
         {
-            move[0] = 'r';
-            move[1] = 'l';
-            return move;
+            // move[0] = 'r';
+            // move[1] = 'l';
+            move_str = "rl";
+            return move_str;
         }
         if (ul_f == (ul_i+rr_i)%5 && ur_f != ur_i) // r: r->l
         {
-            move[0] = 'r';
-            move[1] = 'r';
-            return move;
+            // move[0] = 'r';
+            // move[1] = 'r';
+            move_str = "rr";
+            return move_str;
         }
 
 
@@ -151,15 +153,17 @@ Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 
         if (ur_f == (ur_i+rl_i)%5 && ul_f == ul_i) // r: l->r
         {
-            move[0] = 'l';
-            move[1] = 'r';
-            return move;
+            // move[0] = 'l';
+            // move[1] = 'r';
+            move_str = "lr";
+            return move_str;
         }
         if (ur_f == (ur_i+rl_i)%5 && ul_f != ul_i) // r: l->r
         {
-            move[0] = 'l';
-            move[1] = 'l';
-            return move;
+            // move[0] = 'l';
+            // move[1] = 'l';
+            move_str = "ll";
+            return move_str;
         }
 
 
@@ -167,92 +171,87 @@ Move_str UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 
         if (ur_f == (ur_i+rr_i)%5 && ul_f == ul_i) // r: r->r
         {
-            move[0] = 'r';
-            move[1] = 'r';
-            return move;
+            // move[0] = 'r';
+            // move[1] = 'r';
+            move_str = "rr";
+            return move_str;
         }
         if (ur_f == (ur_i+rr_i)%5 && ul_f != ul_i) // r: r->r
         {
-            move[0] = 'r';
-            move[1] = 'l';
-            return move;
+            // move[0] = 'r';
+            // move[1] = 'l';
+            move_str = "rl";
+            return move_str;
         }
     }
 
 
     if (rl_f == min(rl_i, rr_i)) // u distributes
     {
-        move[0] = 's';
-        move[1] = '0'+ ul_f;
-        return move;
+        // move[0] = 's';
+        // move[1] = '0'+ ul_f;
+        move_str = 's'+static_cast<char>(ul_f);
+        return move_str;
     }
 
     if (rl_f == (rl_i+ul_i)%5 && rr_f == rr_i) // u: l->l
     {
-        move[0] = 'l';
-        move[1] = 'l';
-        return move;
+        // move[0] = 'l';
+        // move[1] = 'l';
+        move_str = "ll";
+        return move_str;
     }
     if (rl_f == (rl_i+ul_i)%5 && rr_f != rr_i) // u: l->l
     {
-        move[0] = 'l';
-        move[1] = 'r';
-        return move;
+        // move[0] = 'l';
+        // move[1] = 'r';
+        move_str = "lr";
+        return move_str;
     }
 
     if (rl_f == (rl_i+ur_i)%5 && rr_f == rr_i) // u: r->l
     {
-        move[0] = 'r';
-        move[1] = 'l';
-        return move;
+        // move[0] = 'r';
+        // move[1] = 'l';
+        move_str = "rl";
+        return move_str;
     }
     if (rl_f == (rl_i+ur_i)%5 && rr_f != rr_i) // u: r->l
     {
-        move[0] = 'r';
-        move[1] = 'r';
-        return move;
+        // move[0] = 'r';
+        // move[1] = 'r';
+        move_str = "rr";
+        return move_str;
     }
 
     if (rr_f == (rr_i+ul_i)%5 && rl_f == rl_i) // u: l->r
     {
-        move[0] = 'l';
-        move[1] = 'r';
-        return move;
+        // move[0] = 'l';
+        // move[1] = 'r';
+        move_str = "lr";
+        return move_str;
     }
     if (rr_f == (rr_i+ul_i)%5 && rl_f != rl_i) // u: l->r
     {
-        move[0] = 'l';
-        move[1] = 'l';
-        return move;
+        // move[0] = 'l';
+        // move[1] = 'l';
+        move_str = "ll";
+        return move_str;
     }
 
     if (rr_f == max((rr_i+ur_i)%5, rl_i) && rl_f == rl_i)
     {
-        move[0] = 'r';
-        move[1] = 'r';
+        // move[0] = 'r';
+        // move[1] = 'r';
+        move_str = "rr";
+        return move_str;
     }
     // u: r->l
-    move[0] = 'r';
-    move[1] = 'l';
-    return move;
+    // move[0] = 'r';
+    // move[1] = 'l';
+    move_str = "rl";
+    return move_str;
 }
 
-Move_str UncEngine::unsort_move(const State_str& og_state, const State_str& sorted_state, const Move_str& sorted_move)
-{
-    Move_str og_move{};
-    og_move[0] = sorted_move[0];
-    og_move[1] = sorted_move[1];
-    og_move[2] = '\0';
 
-    if (og_state[0] > sorted_state[0]) // r was sorted so un sort it back.
-    {
-        (og_move[4] == '0')? (og_move[0] = (sorted_move[0] == 'l')? 'r': 'l'): (og_move[1] = (sorted_move[1] == 'l')? 'r': 'l');
-    }
-
-    if (og_state[2] > sorted_state[2]) // u was sorted so un sort it back
-    {
-        (og_move[4] == '1')? (og_move[0] = (sorted_move[0] == 'l')? 'r': 'l'): (og_move[1] = (sorted_move[1] == 'l')? 'r': 'l');
-    }
-    return og_move;
-}
 

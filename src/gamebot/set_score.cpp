@@ -195,8 +195,8 @@ void r_wins()
     u_lose_vector.clear(); //empty the u_lose_vector to make it contain u_lose state of single level.
     for (State_str rw_key: r_wins_vector)
     {
-        // cases where r defeats u : next chance is of u, i.e. 0
-        if (rw_key[4] == '0')
+        // cases where r defeats u : next chance is of u, i.e. 1
+        if (rw_key[4] == '1')
         {
             map_f[rw_key].score = Infinity;
             const auto& children_vec = map_f.at(rw_key).next_states;

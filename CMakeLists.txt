@@ -63,11 +63,14 @@ add_executable(cs_cpp tests/isparentcorrect.cpp
         build/build_map_0.cpp
         build/test_map0.txt.cpp
         build/test_map0.cpp
-        src/build/build_map_p_0.cpp
-        src/build/test_map_p_0.cpp
+        src/MapBuilder/build_map_p_0.cpp
+        src/MapBuilder/test_map_p_0.cpp
         src/gamebot/set_suicides.cpp
         src/gamebot/set_suicides.hpp
         src/gamebot/set_score.cpp
         src/gamebot/set_terminal_depth.cpp
         src/UncEngine/engine_unc.cpp
+        src/UncEngine/gamebot_terminal.cpp
+        src/UncEngine/engine_unc.hpp
+        WASM/bindings.cpp
 )
