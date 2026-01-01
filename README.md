@@ -69,6 +69,6 @@ emrun index.html
 # 
 <img width="100%"  alt="creation-of-unc-image" src="https://github.com/user-attachments/assets/2489f04b-6ef7-4194-bc13-f8bd87aab5d3"/>
 
->To be honest, this repo serves as gift of gratitude to the person who used to be one of my dearest and closest friends, who taught me the hand-game 'chopsticks' and to the future generations<!-- I wish I could have with her-->. She used to deafeat me every single time. So, I solved it. Realizing the fact that we would be busy with our lives, I made this so she would be able to play with this bot only to lose or play infinitely but never win.</br>
+>To be honest, this repo serves as gift of gratitude to the person who is one of my dearest and closest friends, who taught me the hand-game 'chopsticks' and to the future generations<!-- I wish I could have with her-->. She used to deafeat me every single time. So, I solved it. Realizing the fact that we would be busy with our lives, I made this so she would be able to play with this bot only to lose or play infinitely but never win.</br>
 >ദ്ദി(  - ᴗ •́  )</br>
 
