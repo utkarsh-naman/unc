@@ -2,6 +2,10 @@
 
 >This repo is for the knowledge transfer of the solution to the hand-game 'chopsticks' to the public.</br>
 
+# Chopsticks Hand Game Bot
+
+>The ultimate chopsticks bot which can never be defeated.</br>
+
 # Test the bot <a href="">Link will be added soon</a>
 
 
