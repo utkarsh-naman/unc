@@ -4,9 +4,7 @@
 
 # Chopsticks Hand Game Bot
 
->The ultimate chopsticks bot which can never be defeated.</br>
-
-# Test the bot <a href="">Link will be added soon</a>
+>The ultimate chopsticks bot which can never be defeated. Test the bot <a href="">Link will be added soon</a></br>
 
 
 # About the game
