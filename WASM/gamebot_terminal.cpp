@@ -8,7 +8,7 @@
 int main()
 {
     UncEngine engine = UncEngine();
-    string g_state = "12311";
+    string g_state = "02041";
     cout << "GAME START" << endl;
     cout << "STATE:\t" << g_state[0] << " " << g_state[1] << " " << g_state[2] << " " << g_state[3] << " " << endl;
     cout << "Turn:\t" << ((g_state[4] == '1')? "Bot\'s": "Yours") << endl;

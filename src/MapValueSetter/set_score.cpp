@@ -216,7 +216,7 @@ void r_wins()
                     {
                         map_f[parent_rw_key].losedepth = min_depth(parent_rw_key)+1;
                     }
-                    r_lose_vector.push_back(parent_rw_key);
+                    u_lose_vector.push_back(parent_rw_key);
                     worked_history2.push_back(rw_key);
                 }
             }
@@ -230,7 +230,7 @@ void r_wins()
             {
                 map_f[rw_key].losedepth = min_depth(rw_key)+1;
             }
-            r_lose_vector.push_back(rw_key);
+            u_lose_vector.push_back(rw_key);
         }
 
     }
@@ -257,7 +257,7 @@ void u_loses()
                         return map_f[x].score == NegInfinity;
                     }
                 );
-                if (isall_ninf) u_wins_vector.push_back(parent_ul_key);
+                if (isall_ninf) r_wins_vector.push_back(parent_ul_key);
             }
         }
     }
