@@ -87,14 +87,16 @@ State_str UncEngine::sort_state(const State_str& state)
 
 string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 {
+    cout << state_f.data() <<endl;
+    const State_str sorted_og = sort_state(og_state_i);
     Move_str move{};
     std::string move_str;
     move[2] = '\0';
-    const int rl_i = (static_cast<int>(og_state_i[0])-48);
-    const int rr_i = (static_cast<int>(og_state_i[1])-48);
-    const int ul_i = (static_cast<int>(og_state_i[2])-48);
-    const int ur_i = (static_cast<int>(og_state_i[3])-48);
-    const int attacker_i = (static_cast<int>(og_state_i[4])-48);
+    const int rl_i = (static_cast<int>(sorted_og[0])-48);
+    const int rr_i = (static_cast<int>(sorted_og[1])-48);
+    const int ul_i = (static_cast<int>(sorted_og[2])-48);
+    const int ur_i = (static_cast<int>(sorted_og[3])-48);
+    const int attacker_i = (static_cast<int>(sorted_og[4])-48);
 
     const int rl_f = (static_cast<int>(state_f[0])-48);
     const int rr_f = (static_cast<int>(state_f[1])-48);
@@ -113,143 +115,77 @@ string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
         }
 
 
-
-
-        if (ul_f == (ul_i+rl_i)%5 && ur_f == ur_i) // r: l->l
+        if (ul_f == (ul_i+rl_i)%5 && ul_i != 0 && rl_i != 0) // r: l->l
         {
-            // move[0] = 'l';
-            // move[1] = 'l';
             move_str = "ll";
-            return move_str;
         }
-        if (ul_f == (ul_i+rl_i)%5 && ur_f != ur_i) // r: l->l
+        else if (ul_f == (ul_i+rr_i)%5 && ul_i != 0 && rr_i != 0) // r: r->l
         {
-            // move[0] = 'l';
-            // move[1] = 'r';
-            move_str = "lr";
-            return move_str;
-        }
-
-
-
-
-        if (ul_f == (ul_i+rr_i)%5 && ur_f == ur_i) // r: r->l
-        {
-            // move[0] = 'r';
-            // move[1] = 'l';
             move_str = "rl";
-            return move_str;
         }
-        if (ul_f == (ul_i+rr_i)%5 && ur_f != ur_i) // r: r->l
+        else if (ur_f == (ur_i+rl_i)%5 && ur_i != 0 && rl_i != 0) // r: l->r
         {
-            // move[0] = 'r';
-            // move[1] = 'r';
+            move_str = "lr";
+        }
+        else if (ur_f == (ur_i+rr_i)%5 && ur_i != 0 && rr_i != 0) // r: r->r
+        {
             move_str = "rr";
             return move_str;
         }
 
-
-
-
-        if (ur_f == (ur_i+rl_i)%5 && ul_f == ul_i) // r: l->r
+        if (static_cast<int>(og_state_i[0]) > static_cast<int>(og_state_i[1]))
         {
-            // move[0] = 'l';
-            // move[1] = 'r';
-            move_str = "lr";
+            move_str[0] = (move_str[0] == 'l')? 'r': 'l';
+            if (static_cast<int>(og_state_i[2]) > static_cast<int>(og_state_i[3]))
+            {
+                move_str[1] = (move_str[1] == 'l')? 'r': 'l';
+            }
+        }
+
+    }
+
+    else
+    {
+        if (rl_f == min(rl_i, rr_i) && rr_f == max(rl_i, rr_i)) // u distributes
+        {
+            // move[0] = 's';
+            // move[1] = '0'+ ul_f;
+            move_str = 's'+ std::to_string(ul_f);
             return move_str;
         }
-        if (ur_f == (ur_i+rl_i)%5 && ul_f != ul_i) // r: l->r
+
+        // cout << " bot chance no dist" <<endl;
+
+        if (rl_f == (rl_i+ul_i)%5 && rl_i != 0 && ul_i != 0) // u: l->l
         {
-            // move[0] = 'l';
-            // move[1] = 'l';
             move_str = "ll";
-            return move_str;
         }
-
-
-
-
-        if (ur_f == (ur_i+rr_i)%5 && ul_f == ul_i) // r: r->r
+        else if (rl_f == (rl_i+ur_i)%5 && rl_i != 0 && ur_i != 0) // u: r->l
         {
-            // move[0] = 'r';
-            // move[1] = 'r';
-            move_str = "rr";
-            return move_str;
-        }
-        if (ur_f == (ur_i+rr_i)%5 && ul_f != ul_i) // r: r->r
-        {
-            // move[0] = 'r';
-            // move[1] = 'l';
             move_str = "rl";
-            return move_str;
+        }
+        else if (rr_f == (rr_i+ul_i)%5 && rr_i != 0 && ul_i != 0) // u: l->r
+        {
+            move_str = "lr";
+        }
+        else if (rr_f == (rr_i+ur_i)%5 && rr_i != 0 && ur_i != 0) // u: l->r
+        {
+            move_str = "rr";
+        }
+
+        // cout << "move str before reverse engineering the sortion" << move_str.data() << endl;
+        if (static_cast<int>(og_state_i[0]) > static_cast<int>(og_state_i[1]))
+        {
+            move_str[1] = (move_str[1] == 'l')? 'r': 'l';
+            if (static_cast<int>(og_state_i[2]) > static_cast<int>(og_state_i[3]))
+            {
+                move_str[0] = (move_str[0] == 'l')? 'r': 'l';
+            }
         }
     }
 
 
-    if (rl_f == min(rl_i, rr_i) && rr_f == max(rl_i, rr_i)) // u distributes
-    {
-        // move[0] = 's';
-        // move[1] = '0'+ ul_f;
-        move_str = 's'+ std::to_string(ul_f);
-        return move_str;
-    }
 
-    if (rl_f == (rl_i+ul_i)%5 && rr_f == rr_i) // u: l->l
-    {
-        // move[0] = 'l';
-        // move[1] = 'l';
-        move_str = "ll";
-        return move_str;
-    }
-    if (rl_f == (rl_i+ul_i)%5 && rr_f != rr_i) // u: l->l
-    {
-        // move[0] = 'l';
-        // move[1] = 'r';
-        move_str = "lr";
-        return move_str;
-    }
-
-    if (rl_f == (rl_i+ur_i)%5 && rr_f == rr_i) // u: r->l
-    {
-        // move[0] = 'r';
-        // move[1] = 'l';
-        move_str = "rl";
-        return move_str;
-    }
-    if (rl_f == (rl_i+ur_i)%5 && rr_f != rr_i) // u: r->l
-    {
-        // move[0] = 'r';
-        // move[1] = 'r';
-        move_str = "rr";
-        return move_str;
-    }
-
-    if (rr_f == (rr_i+ul_i)%5 && rl_f == rl_i) // u: l->r
-    {
-        // move[0] = 'l';
-        // move[1] = 'r';
-        move_str = "lr";
-        return move_str;
-    }
-    if (rr_f == (rr_i+ul_i)%5 && rl_f != rl_i) // u: l->r
-    {
-        // move[0] = 'l';
-        // move[1] = 'l';
-        move_str = "ll";
-        return move_str;
-    }
-
-    if (rr_f == max((rr_i+ur_i)%5, rl_i) && rl_f == rl_i)
-    {
-        // move[0] = 'r';
-        // move[1] = 'r';
-        move_str = "rr";
-        return move_str;
-    }
-    // u: r->l
-    // move[0] = 'r';
-    // move[1] = 'l';
-    move_str = "rl";
     return move_str;
 }
 
