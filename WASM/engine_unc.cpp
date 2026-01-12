@@ -76,8 +76,22 @@ std::string UncEngine::play(const std::string& og_state_str) const
     }
 
 
-    // if the max score is inf then defeat in shortest steps
-    // shall we do this or leave it?
+    // if the max score is inf then defeat in shortest winning steps
+    // shall we do this or leave it? let's do it.
+    if (max_score == Infinity)
+    {
+        auto it = min_element(
+            max_score_moves.begin(),
+            max_score_moves.end(),
+            [&] (const State_str& a, const State_str& b)
+            {
+                return game_map.at(a).windepth < game_map.at(b).windepth;
+            }
+        );
+
+        return move_played(og_state, *it);
+    }
+
 
     // return a random move from max_score_moves
     static random_device rd;
