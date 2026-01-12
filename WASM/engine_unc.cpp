@@ -7,6 +7,7 @@
 
 #include "serializer.hpp"
 #include "engine_unc.hpp"
+#include <random>
 
 using State_str = array<unsigned char, 6>;
 using Move_str = array<unsigned char, 3>;
@@ -59,17 +60,41 @@ std::string UncEngine::play(const std::string& og_state_str) const
 
     }
 
-    // case 3: when we know that we can't be defeated even by omniscient opponent
-    auto it = max_element(
-        move_options.begin(),
-        move_options.end(),
-        [&] (const State_str& a, const State_str& b)
-        {
-            return game_map.at(a).score < game_map.at(b).score;
-        }
-    );
 
-    return move_played(og_state, *it);
+    // case 3: when we know that we can't be defeated even by omniscient opponent, so return the random move which has max score
+    float max_score = 0.0f;
+    for (const auto& move_option: move_options)
+    {
+        max_score = max(max_score, game_map.at(move_option).score);
+    }
+
+    vector<State_str> max_score_moves {};
+    for (const auto& move_option: move_options)
+    {
+        if (game_map.at(move_option).score == max_score)
+            max_score_moves.push_back(move_option);
+    }
+
+
+    // if the max score is inf then defeat in shortest steps
+    // shall we do this or leave it?
+
+    // return a random move from max_score_moves
+    static random_device rd;
+    static mt19937 gen(rd());
+    uniform_int_distribution<size_t> dist(0, max_score_moves.size() - 1);
+    State_str random_max_move = max_score_moves[dist(gen)];
+
+    // auto it = max_element(
+    //     move_options.begin(),
+    //     move_options.end(),
+    //     [&] (const State_str& a, const State_str& b)
+    //     {
+    //         return game_map.at(a).score < game_map.at(b).score;
+    //     }
+    // );
+
+    return move_played(og_state, random_max_move);
 
 };
 
@@ -87,8 +112,8 @@ State_str UncEngine::sort_state(const State_str& state)
 
 string UncEngine::move_played(const State_str& og_state_i, State_str state_f)
 {
-    cout << "next state by bot: " << state_f.data() <<endl;
-    const State_str sorted_og = sort_state(og_state_i);
+    // cout << "next state by bot: " << state_f.data() <<endl;
+    // const State_str sorted_og = sort_state(og_state_i);
     Move_str move{};
     std::string move_str;
     move[2] = '\0';
