@@ -4,7 +4,7 @@
 
 # Chopsticks Hand Game Bot
 
->The ultimate chopsticks bot which can never be defeated. Test the bot <a href="http://utkarshnaman.me/cs_go/">Here</a></br>
+>The ultimate chopsticks bot which can never be defeated. Test the bot <a href="https://cs-go-ckm.pages.dev/">Here</a></br>
 
 
 # About the game
